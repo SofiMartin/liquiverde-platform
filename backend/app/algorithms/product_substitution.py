@@ -17,7 +17,6 @@ class ProductSubstitutionEngine:
     def __init__(self):
         self.scorer = SustainabilityScorer()
         
-        # Pesos para scoring de sustitución
         self.weights = {
             "sustainability_improvement": 0.35,
             "price_savings": 0.30,
@@ -49,33 +48,27 @@ class ProductSubstitutionEngine:
         substitutes = []
         
         for candidate in candidate_products:
-            # Evitar sustituir por el mismo producto
             if candidate.get('id') == original_product.get('id'):
                 continue
             
-            # Verificar restricción de precio
             candidate_price = candidate.get('price', 0)
             price_diff_percent = ((candidate_price - original_price) / original_price * 100) if original_price > 0 else 0
             
             if price_diff_percent > max_price_increase:
                 continue
             
-            # Calcular score del candidato
             candidate_score = self.scorer.calculate_overall_score(candidate)
             
-            # Verificar mejora mínima de sostenibilidad
             sustainability_improvement = candidate_score['overall_score'] - original_score['overall_score']
             
             if sustainability_improvement < min_sustainability_improvement:
                 continue
             
-            # Calcular score de sustitución
             substitution_score = self._calculate_substitution_score(
                 original_product, candidate,
                 original_score, candidate_score
             )
             
-            # Calcular ahorros
             savings = original_price - candidate_price
             savings_percent = (savings / original_price * 100) if original_price > 0 else 0
             
@@ -94,7 +87,6 @@ class ProductSubstitutionEngine:
                 "substitute_score": candidate_score
             })
         
-        # Ordenar por score de sustitución
         substitutes.sort(key=lambda x: x['substitution_score'], reverse=True)
         
         logger.info(f"Found {len(substitutes)} substitutes for {original_product.get('name', 'unknown')}")

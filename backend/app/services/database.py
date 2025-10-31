@@ -9,7 +9,6 @@ from app.config import settings
 
 logger = logging.getLogger(__name__)
 
-# Cliente MongoDB global
 client: Optional[AsyncIOMotorClient] = None
 db = None
 
@@ -21,7 +20,6 @@ async def init_db():
         client = AsyncIOMotorClient(settings.MONGODB_URL)
         db = client[settings.DATABASE_NAME]
         
-        # Crear índices
         await db.products.create_index("barcode")
         await db.products.create_index("category")
         await db.products.create_index("store")
@@ -198,7 +196,6 @@ class StoreDB:
     @staticmethod
     async def get_nearby(latitude: float, longitude: float, radius_km: float = 10) -> List[Dict]:
         """Obtiene tiendas cercanas usando geoespacial de MongoDB"""
-        # Convertir km a radianes (radio de la Tierra = 6371 km)
         radius_radians = radius_km / 6371
         
         cursor = db.stores.find({

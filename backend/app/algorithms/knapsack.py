@@ -35,28 +35,24 @@ class MultiObjectiveKnapsack:
         Formula:
         value = (sustainability_score * w1) + (savings_score * w2) + (priority * w3)
         """
-        # Extraer overall_score si sustainability_score es un dict
         sust_score = product.get('sustainability_score', 50)
         if isinstance(sust_score, dict):
             sustainability_score = sust_score.get('overall_score', 50) / 100.0
         else:
             sustainability_score = sust_score / 100.0
         
-        # Calcular ahorro basado en precio vs precio promedio de categoría
         avg_price = product.get('category_avg_price', product['price'])
         savings_score = max(0, (avg_price - product['price']) / avg_price) if avg_price > 0 else 0
         
-        # Normalizar prioridad (1-5 -> 0-1)
         priority_score = product.get('priority', 1) / 5.0
         
-        # Valor multi-objetivo
         value = (
             sustainability_score * self.sustainability_weight +
             savings_score * self.savings_weight +
             priority_score * self.priority_weight
         )
         
-        return value * 100  # Escalar para mejor precisión
+        return value * 100
     
     def optimize(self, products: List[Dict], quantities: List[int]) -> Tuple[List[int], Dict]:
         """
@@ -73,26 +69,19 @@ class MultiObjectiveKnapsack:
         if n == 0:
             return [], {"total_cost": 0, "total_value": 0, "items_selected": 0}
         
-        # Convertir presupuesto a centavos para evitar problemas de punto flotante
         budget_cents = int(self.max_budget * 100)
         
-        # Calcular valores y costos
         values = [self.calculate_item_value(p) for p in products]
         prices_cents = [int(p['price'] * 100) for p in products]
         
         logger.info(f"Optimizing {n} products with budget ${self.max_budget}")
         
-        # Programación dinámica con cantidades
-        # dp[i][w] = (valor_máximo, items_seleccionados)
         dp = [[0 for _ in range(budget_cents + 1)] for _ in range(n + 1)]
         
-        # Llenar tabla DP
         for i in range(1, n + 1):
             for w in range(budget_cents + 1):
-                # No incluir el producto
                 dp[i][w] = dp[i-1][w]
                 
-                # Intentar incluir el producto (hasta la cantidad deseada)
                 max_qty = quantities[i-1]
                 for qty in range(1, max_qty + 1):
                     cost = prices_cents[i-1] * qty
@@ -101,14 +90,12 @@ class MultiObjectiveKnapsack:
                         if value > dp[i][w]:
                             dp[i][w] = value
         
-        # Reconstruir solución
         selected_quantities = [0] * n
         w = budget_cents
         total_value = dp[n][w]
         
         for i in range(n, 0, -1):
             if dp[i][w] != dp[i-1][w]:
-                # Este producto fue seleccionado
                 for qty in range(quantities[i-1], 0, -1):
                     cost = prices_cents[i-1] * qty
                     if w >= cost and dp[i][w] == dp[i-1][w-cost] + values[i-1] * qty:
@@ -116,7 +103,6 @@ class MultiObjectiveKnapsack:
                         w -= cost
                         break
         
-        # Calcular estadísticas
         total_cost = sum(selected_quantities[i] * products[i]['price'] for i in range(n))
         items_selected = sum(1 for q in selected_quantities if q > 0)
         total_items = sum(selected_quantities)
@@ -160,7 +146,6 @@ class MultiObjectiveKnapsack:
         Returns:
             Tuple de (cantidades_optimizadas, estadísticas)
         """
-        # Calcular costo de esenciales
         essential_cost = sum(
             products[i]['price'] * quantities[i] 
             for i in essential_indices
@@ -168,7 +153,6 @@ class MultiObjectiveKnapsack:
         
         if essential_cost > self.max_budget:
             logger.warning(f"Essential items cost ${essential_cost:.2f} exceeds budget ${self.max_budget:.2f}")
-            # Retornar solo esenciales con cantidades reducidas proporcionalmente
             factor = self.max_budget / essential_cost
             selected = [0] * len(products)
             for i in essential_indices:
@@ -181,12 +165,10 @@ class MultiObjectiveKnapsack:
                 "warning": "Budget insufficient for all essentials"
             }
         
-        # Inicializar con esenciales
         selected_quantities = [0] * len(products)
         for i in essential_indices:
             selected_quantities[i] = quantities[i]
         
-        # Optimizar productos no esenciales con presupuesto restante
         remaining_budget = self.max_budget - essential_cost
         
         if remaining_budget > 0:
@@ -210,14 +192,12 @@ class MultiObjectiveKnapsack:
                     non_essential_quantities
                 )
                 
-                # Combinar resultados
                 non_essential_idx = 0
                 for i in range(len(products)):
                     if i not in essential_indices:
                         selected_quantities[i] = optimized_non_essential[non_essential_idx]
                         non_essential_idx += 1
         
-        # Calcular estadísticas finales
         total_cost = sum(selected_quantities[i] * products[i]['price'] for i in range(len(products)))
         items_selected = sum(1 for q in selected_quantities if q > 0)
         

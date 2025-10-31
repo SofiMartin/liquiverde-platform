@@ -14,7 +14,6 @@ const StoreMap = () => {
   }, [])
   
   const loadLeaflet = () => {
-    // Cargar CSS de Leaflet
     if (!document.getElementById('leaflet-css')) {
       const link = document.createElement('link')
       link.id = 'leaflet-css'
@@ -23,7 +22,6 @@ const StoreMap = () => {
       document.head.appendChild(link)
     }
     
-    // Cargar JS de Leaflet
     if (!window.L) {
       const script = document.createElement('script')
       script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'
@@ -52,20 +50,16 @@ const StoreMap = () => {
   }, [stores])
   
   const initMap = () => {
-    // Centro en Santiago, Chile
     const center = [-33.4489, -70.6693]
     
-    // Crear mapa
     const map = window.L.map(mapRef.current).setView(center, 12)
     mapInstanceRef.current = map
     
-    // Agregar tiles de OpenStreetMap
     window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors',
       maxZoom: 19
     }).addTo(map)
     
-    // Agregar marcadores para cada tienda
     stores.forEach(store => {
       const lat = store.location?.latitude || store.location?.coordinates?.[1]
       const lng = store.location?.longitude || store.location?.coordinates?.[0]
@@ -90,7 +84,6 @@ const StoreMap = () => {
       }
     })
     
-    // Ajustar vista para mostrar todos los marcadores
     if (stores.length > 0) {
       const bounds = stores
         .filter(s => s.location?.latitude && s.location?.longitude)
