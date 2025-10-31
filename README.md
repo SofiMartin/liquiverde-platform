@@ -365,12 +365,40 @@ El sistema calcula:
 
 ## 🧪 Testing
 
-```bash
-# Backend (agregar pytest en requirements.txt)
-cd backend
-pytest
+### Backend Tests
 
-# Frontend
+El proyecto incluye tests completos para algoritmos y endpoints de la API.
+
+```bash
+cd backend
+
+# Instalar dependencias de testing (si no están instaladas)
+pip install pytest pytest-asyncio pytest-cov
+
+# Ejecutar todos los tests
+pytest tests/ -v
+
+# Ejecutar tests con cobertura
+pytest tests/ -v --cov=app --cov-report=term-missing --cov-report=html
+
+# O usar el script incluido
+./run_tests.sh
+
+# Ejecutar solo tests de algoritmos
+pytest tests/test_algorithms_simple.py -v
+
+# Ejecutar solo tests de API
+pytest tests/test_api.py -v
+```
+
+**Tests Incluidos:**
+- ✅ **Algoritmos**: 10+ tests para scoring de sostenibilidad
+- ✅ **API Endpoints**: 15+ tests para productos, listas, análisis y tiendas
+- ✅ **Integración**: Tests end-to-end de flujos completos
+
+### Frontend Tests
+
+```bash
 cd frontend
 npm test
 ```

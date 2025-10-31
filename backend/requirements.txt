@@ -10,3 +10,9 @@ passlib[bcrypt]
 python-dotenv
 aiohttp
 numpy
+
+# Testing
+pytest
+pytest-asyncio
+pytest-cov
+httpx  # Already included above for TestClient
