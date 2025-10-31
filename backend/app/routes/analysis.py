@@ -19,7 +19,7 @@ async def get_dashboard_stats():
     """
     Obtiene estadísticas para el dashboard principal.
     """
-    products = ProductDB.get_all(limit=500)
+    products = await ProductDB.get_all(limit=500)
     
     if not products:
         return {
@@ -95,7 +95,7 @@ async def calculate_impact(product_ids: List[str] = Query(...)):
     products = []
     
     for product_id in product_ids:
-        product = ProductDB.get_by_id(product_id)
+        product = await ProductDB.get_by_id(product_id)
         if product:
             products.append(product)
     
@@ -159,7 +159,7 @@ async def get_sustainability_trends():
     """
     Analiza tendencias de sostenibilidad en el catálogo.
     """
-    products = ProductDB.get_all(limit=500)
+    products = await ProductDB.get_all(limit=500)
     
     # Agrupar por categoría
     category_stats = {}
@@ -233,11 +233,11 @@ async def generate_savings_report(product_ids: List[str] = Query(...)):
     from app.algorithms.product_substitution import ProductSubstitutionEngine
     
     engine = ProductSubstitutionEngine()
-    all_products = ProductDB.get_all(limit=500)
+    all_products = await ProductDB.get_all(limit=500)
     
     selected_products = []
     for product_id in product_ids:
-        product = ProductDB.get_by_id(product_id)
+        product = await ProductDB.get_by_id(product_id)
         if product:
             selected_products.append(product)
     

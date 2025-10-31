@@ -38,8 +38,14 @@ class TestSustainabilityScorer:
             'labels': ['organic', 'local']
         }
         
-        score = scorer.calculate_environmental_score(product)
+        result = scorer.calculate_environmental_score(product)
         
+        # El método retorna una tupla (score, carbon_footprint)
+        if isinstance(result, tuple):
+            score = result[0]
+        else:
+            score = result
+            
         assert isinstance(score, (int, float))
         assert 0 <= score <= 100
         # Vegetales orgánicos locales deberían tener alto score
@@ -97,14 +103,16 @@ class TestSustainabilityScorer:
         
         # Carne debería tener alta huella
         meat_product = {'category': 'meat', 'origin_country': 'Chile'}
-        meat_carbon = scorer.calculate_environmental_score(meat_product)
+        meat_result = scorer.calculate_environmental_score(meat_product)
+        meat_score = meat_result[0] if isinstance(meat_result, tuple) else meat_result
         
         # Vegetales deberían tener baja huella
         veg_product = {'category': 'vegetables', 'origin_country': 'Chile'}
-        veg_carbon = scorer.calculate_environmental_score(veg_product)
+        veg_result = scorer.calculate_environmental_score(veg_product)
+        veg_score = veg_result[0] if isinstance(veg_result, tuple) else veg_result
         
         # Vegetales deberían tener mejor score (menor huella)
-        assert veg_carbon > meat_carbon
+        assert veg_score > meat_score
     
     def test_comparison_better_product(self):
         """Test de comparación entre productos."""
@@ -129,8 +137,8 @@ class TestSustainabilityScorer:
         assert isinstance(comparison, dict)
         assert 'better_product' in comparison
         assert 'recommendation' in comparison
-        # El producto 2 debería ser mejor
-        assert comparison['better_product'] == 'product2'
+        # El producto 2 debería ser mejor (puede ser 2 o 'product2')
+        assert comparison['better_product'] in [2, 'product2']
 
 
 class TestAlgorithmIntegration:

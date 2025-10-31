@@ -251,7 +251,7 @@ async def quick_optimize(
     quantities = []
     
     for product_id in product_ids:
-        product = ProductDB.get_by_id(product_id)
+        product = await ProductDB.get_by_id(product_id)
         
         if product:
             product['category_avg_price'] = product['price'] * 1.1

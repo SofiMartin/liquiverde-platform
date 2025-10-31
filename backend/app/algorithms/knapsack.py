@@ -35,7 +35,12 @@ class MultiObjectiveKnapsack:
         Formula:
         value = (sustainability_score * w1) + (savings_score * w2) + (priority * w3)
         """
-        sustainability_score = product.get('sustainability_score', 50) / 100.0
+        # Extraer overall_score si sustainability_score es un dict
+        sust_score = product.get('sustainability_score', 50)
+        if isinstance(sust_score, dict):
+            sustainability_score = sust_score.get('overall_score', 50) / 100.0
+        else:
+            sustainability_score = sust_score / 100.0
         
         # Calcular ahorro basado en precio vs precio promedio de categoría
         avg_price = product.get('category_avg_price', product['price'])
@@ -119,7 +124,11 @@ class MultiObjectiveKnapsack:
         avg_sustainability = 0
         if items_selected > 0:
             total_sustainability = sum(
-                selected_quantities[i] * products[i].get('sustainability_score', 50)
+                selected_quantities[i] * (
+                    products[i]['sustainability_score']['overall_score'] 
+                    if isinstance(products[i].get('sustainability_score'), dict) 
+                    else products[i].get('sustainability_score', 50)
+                )
                 for i in range(n)
             )
             avg_sustainability = total_sustainability / total_items

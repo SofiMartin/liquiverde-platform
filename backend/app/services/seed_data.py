@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 scorer = SustainabilityScorer()
 
-# Dataset de productos de ejemplo (mismo que antes)
+# Dataset de productos
 SAMPLE_PRODUCTS = [
     {
         "barcode": "7804123456789",
