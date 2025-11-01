@@ -8,7 +8,7 @@ Plataforma full-stack que ayuda a los consumidores a ahorrar dinero mientras tom
 - **Backend API**: https://liquiverde-platform.onrender.com
 - **Documentación API**: https://liquiverde-platform.onrender.com/docs
 
-> ⚠️ **Nota**: El backend puede tardar ~30 segundos en la primera carga (cold start del plan gratuito de Render).
+> ⚠️ **Nota**: El backend puede tardar ~30 segundos en la primera carga.
 
 ## 🎯 Características Principales
 
