@@ -24,7 +24,7 @@ class Product(BaseModel):
     brand: Optional[str] = None
     category: str
     price: float = Field(..., gt=0)
-    unit: str = "unit"  # unit, kg, l, etc.
+    unit: str = "unit"
     quantity: float = 1.0
     store: Optional[str] = None
     image_url: Optional[str] = None
@@ -33,7 +33,7 @@ class Product(BaseModel):
     sustainability_score: Optional[SustainabilityScore] = None
     ingredients: Optional[List[str]] = None
     allergens: Optional[List[str]] = None
-    labels: Optional[List[str]] = None  # organic, fair-trade, etc.
+    labels: Optional[List[str]] = None
     origin_country: Optional[str] = None
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)

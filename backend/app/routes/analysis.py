@@ -31,7 +31,6 @@ async def get_dashboard_stats():
             "top_savings_opportunities": []
         }
     
-    # Calcular estadísticas
     total_products = len(products)
     sustainability_scores = []
     carbon_footprints = []
@@ -48,7 +47,6 @@ async def get_dashboard_stats():
     avg_sustainability = sum(sustainability_scores) / len(sustainability_scores) if sustainability_scores else 0
     total_carbon = sum(carbon_footprints)
     
-    # Top productos sostenibles
     sorted_by_sustainability = sorted(
         [p for p in products if p.get('sustainability_score')],
         key=lambda x: x['sustainability_score']['overall_score'],
@@ -303,17 +301,17 @@ def _generate_impact_recommendations(carbon: float, sustainability: float) -> Li
     recommendations = []
     
     if carbon > 50:
-        recommendations.append("⚠️ Alta huella de carbono. Considera productos locales y de temporada.")
+        recommendations.append("Alta huella de carbono. Considera productos locales y de temporada.")
     elif carbon > 20:
-        recommendations.append("⚡ Huella de carbono moderada. Puedes mejorar eligiendo productos orgánicos.")
+        recommendations.append("Huella de carbono moderada. Puedes mejorar eligiendo productos orgánicos.")
     else:
-        recommendations.append("✅ Excelente huella de carbono. ¡Sigue así!")
+        recommendations.append("Excelente huella de carbono. ¡Sigue así!")
     
     if sustainability < 40:
-        recommendations.append("📊 Baja puntuación de sostenibilidad. Revisa las alternativas sugeridas.")
+        recommendations.append("Baja puntuación de sostenibilidad. Revisa las alternativas sugeridas.")
     elif sustainability < 60:
-        recommendations.append("📈 Sostenibilidad moderada. Hay margen de mejora.")
+        recommendations.append("Sostenibilidad moderada. Hay margen de mejora.")
     else:
-        recommendations.append("🌟 Excelente sostenibilidad. Estás haciendo una diferencia.")
+        recommendations.append("Excelente sostenibilidad. Estás haciendo una diferencia.")
     
     return recommendations

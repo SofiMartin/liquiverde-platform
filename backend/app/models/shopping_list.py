@@ -7,7 +7,7 @@ class ShoppingListItem(BaseModel):
     product_id: str
     product_name: str
     quantity: int = Field(..., gt=0)
-    priority: int = Field(default=1, ge=1, le=5)  # 1=low, 5=high
+    priority: int = Field(default=1, ge=1, le=5)
     is_essential: bool = False
 
 class OptimizationCriteria(BaseModel):
@@ -28,7 +28,7 @@ class ShoppingList(BaseModel):
 
 class OptimizedShoppingList(BaseModel):
     original_list: ShoppingList
-    optimized_items: List[Dict]  # Products with quantities
+    optimized_items: List[Dict]
     total_cost: float
     estimated_savings: float
     total_environmental_score: float

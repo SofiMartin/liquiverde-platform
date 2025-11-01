@@ -20,8 +20,8 @@ class Store(BaseModel):
     hours: Optional[List[StoreHours]] = None
     phone: Optional[str] = None
     sustainability_rating: Optional[float] = Field(None, ge=0, le=5)
-    average_price_level: Optional[str] = None  # low, medium, high
-
+    average_price_level: Optional[str] = None
+    
 class RouteOptimization(BaseModel):
     stores: List[Store]
     total_distance: float

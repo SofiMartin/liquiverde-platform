@@ -77,8 +77,7 @@ async def optimize_shopping_list(
             logger.warning(f"Product {item['product_id']} not found, skipping")
             continue
         
-        # Agregar precio promedio de categoría para cálculo de valor
-        product['category_avg_price'] = product['price'] * 1.1  # Simplificado
+        product['category_avg_price'] = product['price'] * 1.1
         product['priority'] = item.get('priority', 1)
         
         products.append(product)
@@ -90,7 +89,6 @@ async def optimize_shopping_list(
     if not products:
         raise HTTPException(status_code=400, detail="No valid products in list")
     
-    # Crear optimizador
     knapsack = MultiObjectiveKnapsack(
         max_budget=criteria.max_budget,
         sustainability_weight=0.35 if criteria.prioritize_sustainability else 0.2,
@@ -98,7 +96,6 @@ async def optimize_shopping_list(
         priority_weight=0.3
     )
     
-    # Optimizar
     if essential_indices:
         optimized_quantities, stats = knapsack.optimize_with_essentials(
             products, quantities, essential_indices
@@ -106,7 +103,6 @@ async def optimize_shopping_list(
     else:
         optimized_quantities, stats = knapsack.optimize(products, quantities)
     
-    # Construir lista optimizada
     optimized_items = []
     total_carbon = 0
     
@@ -122,11 +118,9 @@ async def optimize_shopping_list(
             if product.get('sustainability_score'):
                 total_carbon += product['sustainability_score'].get('carbon_footprint', 0) * qty
     
-    # Calcular ahorros estimados
     original_cost = sum(products[i]['price'] * quantities[i] for i in range(len(products)))
     estimated_savings = original_cost - stats['total_cost']
     
-    # Buscar sustituciones para mejorar sostenibilidad
     substitutions = []
     if criteria.prioritize_sustainability:
         all_products = ProductDB.get_all(limit=200)

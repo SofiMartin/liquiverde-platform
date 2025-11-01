@@ -53,7 +53,6 @@ async def get_nearby_stores(
         distance = optimizer.calculate_distance((latitude, longitude), store_loc)
         store['distance_km'] = round(distance, 2)
     
-    # Ordenar por distancia
     stores.sort(key=lambda x: x.get('distance_km', float('inf')))
     
     return stores

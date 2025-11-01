@@ -226,7 +226,6 @@ class NominatimAPI:
             Lista de tiendas encontradas
         """
         try:
-            # Usar Overpass API para buscar supermercados
             overpass_url = "https://overpass-api.de/api/interpreter"
             
             query = f"""
@@ -311,22 +310,18 @@ class PriceEstimator:
             PriceEstimator.CATEGORY_PRICES['default']
         )
         
-        # Ajustar por marca
         brand = product.get('brand', '').lower()
         if brand and any(premium in brand for premium in ['premium', 'gourmet', 'organic']):
             base_price *= 1.5
         
-        # Ajustar por etiquetas
         labels = [l.lower() for l in product.get('labels', [])]
         if 'organic' in labels:
             base_price *= 1.3
         if 'fair-trade' in labels:
             base_price *= 1.2
         
-        # Ajustar por cantidad
         quantity = product.get('quantity', 1.0)
         if quantity > 1.0:
-            # Descuento por volumen
             base_price *= (1 + (quantity - 1) * 0.8)
         
         return round(base_price, 0)

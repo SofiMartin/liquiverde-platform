@@ -9,7 +9,6 @@ const api = axios.create({
   },
 })
 
-// Products API
 export const productsAPI = {
   scanBarcode: (barcode) => api.post(`/products/scan/${barcode}`),
   search: (params) => api.get('/products/search', { params }),
@@ -21,7 +20,6 @@ export const productsAPI = {
   list: (limit = 100) => api.get('/products/', { params: { limit } }),
 }
 
-// Shopping Lists API
 export const shoppingListsAPI = {
   create: (shoppingList) => api.post('/shopping-lists/', shoppingList),
   getById: (id) => api.get(`/shopping-lists/${id}`),
@@ -31,7 +29,6 @@ export const shoppingListsAPI = {
   quickOptimize: (data) => api.post('/shopping-lists/quick-optimize', data),
 }
 
-// Analysis API
 export const analysisAPI = {
   getDashboard: () => api.get('/analysis/dashboard'),
   calculateImpact: (productIds) => api.get('/analysis/impact', { params: { product_ids: productIds } }),
@@ -39,7 +36,6 @@ export const analysisAPI = {
   getSavingsReport: (productIds) => api.get('/analysis/savings-report', { params: { product_ids: productIds } }),
 }
 
-// Stores API
 export const storesAPI = {
   create: (store) => api.post('/stores/', store),
   list: () => api.get('/stores/'),

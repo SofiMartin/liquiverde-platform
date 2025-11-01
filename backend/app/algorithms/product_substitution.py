@@ -103,26 +103,21 @@ class ProductSubstitutionEngine:
         """
         score = 0.0
         
-        # 1. Mejora de sostenibilidad
         sustainability_improvement = candidate_score['overall_score'] - original_score['overall_score']
         sustainability_component = min(100, max(0, sustainability_improvement)) * self.weights['sustainability_improvement']
         score += sustainability_component
         
-        # 2. Ahorro de precio
         original_price = original.get('price', 0)
         candidate_price = candidate.get('price', 0)
         
         if original_price > 0:
             savings_percent = ((original_price - candidate_price) / original_price) * 100
-            # Normalizar: 20% ahorro = 100 puntos
             price_component = min(100, max(0, savings_percent * 5)) * self.weights['price_savings']
             score += price_component
         
-        # 3. Similitud de categoría
         category_match = self._calculate_category_similarity(original, candidate)
         score += category_match * self.weights['category_match']
         
-        # 4. Similitud nutricional
         nutritional_similarity = self._calculate_nutritional_similarity(original, candidate)
         score += nutritional_similarity * self.weights['nutritional_similarity']
         
@@ -141,7 +136,6 @@ class ProductSubstitutionEngine:
         if cat1 == cat2:
             return 100.0
         
-        # Categorías relacionadas
         related_categories = {
             'meat': ['poultry', 'fish'],
             'dairy': ['cheese', 'yogurt', 'milk'],
@@ -155,7 +149,7 @@ class ProductSubstitutionEngine:
             if cat2 == main_cat and cat1 in related:
                 return 70.0
         
-        return 30.0  # Categorías no relacionadas
+        return 30.0
     
     def _calculate_nutritional_similarity(self, product1: Dict, product2: Dict) -> float:
         """
@@ -168,9 +162,8 @@ class ProductSubstitutionEngine:
         nutr2 = product2.get('nutritional_info', {})
         
         if not nutr1 or not nutr2:
-            return 50.0  # Score neutral si no hay info
+            return 50.0
         
-        # Comparar macronutrientes principales
         metrics = ['energy_kcal', 'proteins', 'carbohydrates', 'fats']
         similarities = []
         
@@ -183,7 +176,6 @@ class ProductSubstitutionEngine:
             elif val1 == 0 or val2 == 0:
                 similarities.append(0)
             else:
-                # Calcular diferencia porcentual
                 diff = abs(val1 - val2) / max(val1, val2)
                 similarity = max(0, (1 - diff) * 100)
                 similarities.append(similarity)
@@ -210,14 +202,12 @@ class ProductSubstitutionEngine:
         elif savings_percent < -5:
             reasons.append(f"Inversión en sostenibilidad (+{abs(savings_percent):.1f}%)")
         
-        # Verificar certificaciones especiales
         substitute_labels = [l.lower() for l in substitute.get('labels', [])]
         if 'organic' in substitute_labels:
             reasons.append("Producto orgánico")
         if 'fair-trade' in substitute_labels:
             reasons.append("Comercio justo")
         
-        # Verificar origen local
         if substitute.get('origin_country', '').lower() in ['chile', 'local']:
             reasons.append("Producción local")
         
@@ -244,7 +234,6 @@ class ProductSubstitutionEngine:
         total_carbon_reduction = 0
         
         for product in products:
-            # Buscar sustitutos para cada producto
             substitutes = self.find_substitutes(product, candidate_pool)
             
             if substitutes:
@@ -262,9 +251,7 @@ class ProductSubstitutionEngine:
                 total_savings += best_substitute['savings']
                 total_carbon_reduction += best_substitute['carbon_reduction']
         
-        # Limitar número de sustituciones si se especifica
         if max_substitutions and len(substitutions) > max_substitutions:
-            # Ordenar por impacto combinado
             substitutions.sort(
                 key=lambda x: x['sustainability_improvement'] + (x['savings'] * 10),
                 reverse=True

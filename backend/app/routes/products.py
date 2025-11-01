@@ -23,30 +23,25 @@ async def scan_product(barcode: str):
     Escanea un producto por código de barras.
     Busca primero en BD local, luego en Open Food Facts.
     """
-    # Buscar en BD local
     product = await ProductDB.get_by_barcode(barcode)
     
     if product:
         logger.info(f"Product found in local DB: {barcode}")
         return product
     
-    # Buscar en Open Food Facts
     logger.info(f"Fetching product from OpenFoodFacts: {barcode}")
     product_data = await OpenFoodFactsAPI.get_product_by_barcode(barcode)
     
     if not product_data:
         raise HTTPException(status_code=404, detail="Product not found")
     
-    # Estimar precio si no está disponible
     if 'price' not in product_data or not product_data['price']:
         product_data['price'] = PriceEstimator.estimate_price(product_data)
     
-    # Calcular score de sostenibilidad
     category_avg = PriceEstimator.get_category_average(product_data.get('category', 'default'))
     sustainability_score = scorer.calculate_overall_score(product_data, category_avg)
     product_data['sustainability_score'] = sustainability_score
     
-    # Guardar en BD
     product_id = await ProductDB.create(product_data)
     product_data['id'] = product_id
     
