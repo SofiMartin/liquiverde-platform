@@ -352,36 +352,43 @@ El sistema calcula:
 
 ## 🚀 Despliegue
 
-### Despliegue en Railway (Recomendado)
+### Despliegue en Render (100% Gratis - Recomendado)
 
-La forma más fácil de desplegar toda la aplicación es usando Railway:
+La forma más fácil y gratuita de desplegar toda la aplicación:
 
-1. **Crear cuenta en Railway**: https://railway.app/
-2. **Preparar MongoDB Atlas**: https://www.mongodb.com/cloud/atlas (tier gratuito)
-3. **Desplegar desde GitHub**:
-   - New Project → Deploy from GitHub
-   - Seleccionar repositorio `SofiMartin/liquiverde-platform`
-   - Railway detectará automáticamente Docker Compose
+1. **Crear cuenta en Render**: https://render.com/ (sin tarjeta de crédito)
+2. **Preparar MongoDB Atlas**: https://www.mongodb.com/cloud/atlas (tier M0 gratuito)
+3. **Desplegar Backend**:
+   - New → Web Service
+   - Conectar repositorio GitHub
+   - Root Directory: `backend`
+   - Environment: Docker
+   - Plan: Free
 
-4. **Configurar variables de entorno**:
+4. **Desplegar Frontend**:
+   - New → Static Site
+   - Root Directory: `frontend`
+   - Build: `npm install && npm run build`
+   - Publish: `dist`
+   - Plan: Free
+
+5. **Configurar variables de entorno**:
    ```env
-   MONGODB_URL=mongodb+srv://user:pass@cluster.mongodb.net/
+   # Backend
+   MONGODB_URL=mongodb+srv://user:pass@cluster.mongodb.net/liquiverde
    DATABASE_NAME=liquiverde
    PORT=8000
+   
+   # Frontend
+   VITE_API_URL=https://liquiverde-backend.onrender.com
    ```
 
-5. **Acceder a la aplicación**:
-   - Frontend: `https://liquiverde-frontend.up.railway.app`
-   - Backend API: `https://liquiverde-backend.up.railway.app`
-   - Docs: `https://liquiverde-backend.up.railway.app/docs`
+6. **Acceder a la aplicación**:
+   - Frontend: `https://liquiverde-frontend.onrender.com`
+   - Backend API: `https://liquiverde-backend.onrender.com`
+   - Docs: `https://liquiverde-backend.onrender.com/docs`
 
-📖 **Guía completa**: Ver [RAILWAY_DEPLOY.md](./RAILWAY_DEPLOY.md)
-
-### Otras Opciones
-
-**Frontend:** Vercel, Netlify, GitHub Pages  
-**Backend:** Render, Heroku, Fly.io  
-**Base de Datos:** MongoDB Atlas (gratis), Railway PostgreSQL
+📖 **Guía completa paso a paso**: Ver [RENDER_DEPLOY.md](./RENDER_DEPLOY.md)
 
 ## 🧪 Testing
 

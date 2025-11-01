@@ -1,0 +1,28 @@
+services:
+  # Backend API
+  - type: web
+    name: liquiverde-backend
+    env: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    envVars:
+      - key: MONGODB_URL
+        sync: false
+      - key: DATABASE_NAME
+        value: liquiverde
+      - key: PORT
+        value: 8000
+    healthCheckPath: /health
+
+  # Frontend
+  - type: web
+    name: liquiverde-frontend
+    env: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: ./frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: liquiverde-backend
+          property: host
