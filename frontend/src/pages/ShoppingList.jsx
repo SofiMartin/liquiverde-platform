@@ -10,7 +10,9 @@ const ShoppingList = () => {
   const [optimizedResult, setOptimizedResult] = useState(null)
   
   useEffect(() => {
-    loadProducts()
+    const controller = new AbortController()
+    loadProducts(controller.signal)
+    return () => controller.abort()
   }, [])
   
   const loadProducts = async () => {
@@ -42,6 +44,7 @@ const ShoppingList = () => {
     if (selectedProducts.length === 0) return
     
     setOptimizing(true)
+    setOptimizedResult(null) // Limpiar resultado anterior
     try {
       const productIds = selectedProducts.map(p => p.id)
       const response = await shoppingListsAPI.quickOptimize({
@@ -52,6 +55,7 @@ const ShoppingList = () => {
       setOptimizedResult(response.data)
     } catch (error) {
       console.error('Error optimizing:', error)
+      alert('Error al optimizar la lista. Por favor intenta de nuevo.')
     } finally {
       setOptimizing(false)
     }
