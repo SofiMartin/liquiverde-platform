@@ -44,11 +44,9 @@ const ShoppingList = () => {
     if (selectedProducts.length === 0) return
     
     setOptimizing(true)
-    setOptimizedResult(null) // Limpiar resultado anterior
     try {
-      const productIds = selectedProducts.map(p => p.id)
       const response = await shoppingListsAPI.quickOptimize({
-        product_ids: productIds,
+        product_ids: selectedProducts.map(p => p.id),
         max_budget: maxBudget,
         prioritize_sustainability: true
       })

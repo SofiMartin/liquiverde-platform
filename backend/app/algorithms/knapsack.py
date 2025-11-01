@@ -69,7 +69,8 @@ class MultiObjectiveKnapsack:
         if n == 0:
             return [], {"total_cost": 0, "total_value": 0, "items_selected": 0}
         
-        budget_cents = int(self.max_budget * 100)
+        # Limitar presupuesto para mejor rendimiento (máx 1 millón de pesos)
+        budget_cents = min(int(self.max_budget * 100), 100000000)
         
         values = [self.calculate_item_value(p) for p in products]
         prices_cents = [int(p['price'] * 100) for p in products]

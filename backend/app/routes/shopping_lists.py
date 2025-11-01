@@ -241,12 +241,16 @@ async def quick_optimize(
     """
     Optimización rápida sin crear lista persistente.
     """
+    import asyncio
+    
+    # Buscar todos los productos en paralelo para mejor rendimiento
+    product_tasks = [ProductDB.get_by_id(product_id) for product_id in product_ids]
+    fetched_products = await asyncio.gather(*product_tasks)
+    
     products = []
     quantities = []
     
-    for product_id in product_ids:
-        product = await ProductDB.get_by_id(product_id)
-        
+    for product in fetched_products:
         if product:
             product['category_avg_price'] = product['price'] * 1.1
             product['priority'] = 3  # Prioridad media por defecto
