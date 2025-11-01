@@ -138,6 +138,83 @@ const Scanner = () => {
           </div>
         </form>
       </div>
+
+      {/* Available Barcodes */}
+      <div className="card bg-blue-50 border-2 border-blue-200">
+        <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center space-x-2">
+          <ScanBarcode className="h-5 w-5 text-blue-600" />
+          <span>Códigos de Barras Disponibles</span>
+        </h3>
+        <p className="text-sm text-gray-700 mb-4">Prueba escaneando estos códigos para ver productos de ejemplo:</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="bg-white rounded-lg p-3 border border-blue-100">
+            <div className="flex justify-between items-center">
+              <div>
+                <p className="font-medium text-gray-900">Lentejas Orgánicas</p>
+                <p className="text-sm text-gray-600">Código: <code className="bg-gray-100 px-2 py-1 rounded">7804123456797</code></p>
+              </div>
+              <button onClick={() => setBarcode('7804123456797')} className="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                Usar
+              </button>
+            </div>
+          </div>
+          <div className="bg-white rounded-lg p-3 border border-blue-100">
+            <div className="flex justify-between items-center">
+              <div>
+                <p className="font-medium text-gray-900">Arroz Integral Orgánico</p>
+                <p className="text-sm text-gray-600">Código: <code className="bg-gray-100 px-2 py-1 rounded">7804123456796</code></p>
+              </div>
+              <button onClick={() => setBarcode('7804123456796')} className="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                Usar
+              </button>
+            </div>
+          </div>
+          <div className="bg-white rounded-lg p-3 border border-blue-100">
+            <div className="flex justify-between items-center">
+              <div>
+                <p className="font-medium text-gray-900">Pasta Integral</p>
+                <p className="text-sm text-gray-600">Código: <code className="bg-gray-100 px-2 py-1 rounded">7804123456803</code></p>
+              </div>
+              <button onClick={() => setBarcode('7804123456803')} className="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                Usar
+              </button>
+            </div>
+          </div>
+          <div className="bg-white rounded-lg p-3 border border-blue-100">
+            <div className="flex justify-between items-center">
+              <div>
+                <p className="font-medium text-gray-900">Pechuga de Pollo Orgánica</p>
+                <p className="text-sm text-gray-600">Código: <code className="bg-gray-100 px-2 py-1 rounded">7804123456789</code></p>
+              </div>
+              <button onClick={() => setBarcode('7804123456789')} className="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                Usar
+              </button>
+            </div>
+          </div>
+          <div className="bg-white rounded-lg p-3 border border-blue-100">
+            <div className="flex justify-between items-center">
+              <div>
+                <p className="font-medium text-gray-900">Manzanas Orgánicas</p>
+                <p className="text-sm text-gray-600">Código: <code className="bg-gray-100 px-2 py-1 rounded">7804123456793</code></p>
+              </div>
+              <button onClick={() => setBarcode('7804123456793')} className="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                Usar
+              </button>
+            </div>
+          </div>
+          <div className="bg-white rounded-lg p-3 border border-blue-100">
+            <div className="flex justify-between items-center">
+              <div>
+                <p className="font-medium text-gray-900">Leche Descremada Orgánica</p>
+                <p className="text-sm text-gray-600">Código: <code className="bg-gray-100 px-2 py-1 rounded">7804123456791</code></p>
+              </div>
+              <button onClick={() => setBarcode('7804123456791')} className="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                Usar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
       
       {/* Error Message */}
       {error && (
