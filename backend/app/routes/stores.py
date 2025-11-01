@@ -44,7 +44,6 @@ async def get_nearby_stores(
     stores = await StoreDB.get_nearby(latitude, longitude, radius_km)
     
     # Calcular distancias
-    from app.algorithms.route_optimization import RouteOptimizer
     
     optimizer = RouteOptimizer((latitude, longitude))
     
