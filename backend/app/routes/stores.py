@@ -97,7 +97,6 @@ async def optimize_route(
     if not store_ids:
         raise HTTPException(status_code=400, detail="No stores provided")
     
-    # Obtener tiendas
     stores = []
     for store_id in store_ids:
         all_stores = await StoreDB.get_all()
@@ -109,7 +108,6 @@ async def optimize_route(
     if not stores:
         raise HTTPException(status_code=404, detail="No valid stores found")
     
-    # Optimizar ruta
     optimizer = RouteOptimizer((start_latitude, start_longitude))
     optimized_route = optimizer.optimize_route(stores)
     
@@ -125,7 +123,6 @@ async def compare_routes(
     """
     Compara diferentes órdenes de visita a tiendas.
     """
-    # Obtener tiendas
     stores = []
     for store_id in store_ids:
         all_stores = await StoreDB.get_all()
@@ -137,12 +134,9 @@ async def compare_routes(
     if not stores:
         raise HTTPException(status_code=404, detail="No valid stores found")
     
-    # Si no hay órdenes alternativas, generar algunas
     if not alternative_orders:
-        # Orden original
         alternative_orders.append(list(range(len(stores))))
         
-        # Orden inverso
         alternative_orders.append(list(range(len(stores)-1, -1, -1)))
     
     optimizer = RouteOptimizer((start_latitude, start_longitude))
