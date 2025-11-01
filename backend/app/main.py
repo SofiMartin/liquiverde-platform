@@ -48,5 +48,16 @@ async def root():
     }
 
 @app.get("/health")
-async def health_check():
+async def health():
     return {"status": "healthy"}
+
+@app.post("/api/seed")
+async def seed_database():
+    """Load sample data into the database"""
+    from app.services.seed_data import seed_database as run_seed
+    try:
+        await run_seed()
+        return {"message": "Database seeded successfully", "status": "success"}
+    except Exception as e:
+        logger.error(f"Error seeding database: {e}")
+        return {"message": f"Error seeding database: {str(e)}", "status": "error"}
