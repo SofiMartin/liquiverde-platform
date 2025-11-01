@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Plus, Trash2, Sparkles, Loader2, DollarSign, Leaf } from 'lucide-react'
 import { productsAPI, shoppingListsAPI } from '../services/api'
 
@@ -59,13 +59,55 @@ const ShoppingList = () => {
     }
   }
   
-  const totalCost = selectedProducts.reduce((sum, p) => sum + (p.price * p.quantity), 0)
+  const totalCost = useMemo(() => {
+    return selectedProducts.reduce((sum, p) => sum + (p.price * p.quantity), 0)
+  }, [selectedProducts])
+  
+  const totalItems = useMemo(() => {
+    return selectedProducts.reduce((sum, p) => sum + p.quantity, 0)
+  }, [selectedProducts])
+  
+  const averageSustainability = useMemo(() => {
+    if (selectedProducts.length === 0) return 0
+    const total = selectedProducts.reduce((sum, p) => {
+      const score = p.sustainability_score?.overall_score || 0
+      return sum + (score * p.quantity)
+    }, 0)
+    return Math.round(total / totalItems)
+  }, [selectedProducts, totalItems])
   
   return (
     <div className="max-w-6xl mx-auto space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold text-gray-900">Lista de Compras Inteligente</h1>
       </div>
+
+      {/* Stats Summary - Memoized */}
+      {selectedProducts.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="card bg-blue-50 border-2 border-blue-200">
+            <div className="flex items-center space-x-2 text-blue-600 mb-1">
+              <DollarSign className="h-5 w-5" />
+              <span className="text-sm font-medium">Costo Total</span>
+            </div>
+            <div className="text-2xl font-bold text-gray-900">${totalCost.toFixed(0)}</div>
+            <div className="text-sm text-gray-600">{totalItems} productos</div>
+          </div>
+          <div className="card bg-green-50 border-2 border-green-200">
+            <div className="flex items-center space-x-2 text-green-600 mb-1">
+              <Leaf className="h-5 w-5" />
+              <span className="text-sm font-medium">Sostenibilidad</span>
+            </div>
+            <div className="text-2xl font-bold text-gray-900">{averageSustainability}/100</div>
+            <div className="text-sm text-gray-600">Promedio ponderado</div>
+          </div>
+          <div className="card bg-purple-50 border-2 border-purple-200">
+            <div className="text-sm font-medium text-purple-600 mb-1">Presupuesto</div>
+            <div className="text-2xl font-bold text-gray-900">{Math.round((totalCost / maxBudget) * 100)}%</div>
+            <div className="text-sm text-gray-600">Usado de ${maxBudget.toLocaleString()}</div>
+          </div>
+        </div>
+      )}
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Product Selection */}
