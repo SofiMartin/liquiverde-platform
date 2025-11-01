@@ -181,7 +181,7 @@ const ShoppingList = () => {
                 <DollarSign className="h-5 w-5" />
                 <span className="text-sm font-medium">Costo Total</span>
               </div>
-              <div className="text-2xl font-bold">${optimizedResult.stats.total_cost}</div>
+              <div className="text-2xl font-bold text-gray-900">${optimizedResult.stats.total_cost}</div>
               <div className="text-sm text-gray-600">
                 Presupuesto restante: ${optimizedResult.stats.budget_remaining}
               </div>
@@ -192,13 +192,13 @@ const ShoppingList = () => {
                 <Leaf className="h-5 w-5" />
                 <span className="text-sm font-medium">Sostenibilidad</span>
               </div>
-              <div className="text-2xl font-bold">{optimizedResult.stats.average_sustainability}/100</div>
+              <div className="text-2xl font-bold text-gray-900">{optimizedResult.stats.average_sustainability}/100</div>
               <div className="text-sm text-gray-600">Puntuación promedio</div>
             </div>
             
             <div className="bg-white rounded-lg p-4">
               <div className="text-sm font-medium text-gray-600 mb-1">Productos</div>
-              <div className="text-2xl font-bold">{optimizedResult.stats.items_selected}</div>
+              <div className="text-2xl font-bold text-gray-900">{optimizedResult.stats.items_selected}</div>
               <div className="text-sm text-gray-600">
                 {optimizedResult.stats.total_items} unidades totales
               </div>
@@ -206,16 +206,16 @@ const ShoppingList = () => {
           </div>
           
           <div className="bg-white rounded-lg p-4">
-            <h3 className="font-semibold mb-3">Productos Seleccionados</h3>
+            <h3 className="font-semibold mb-3 text-gray-900">Productos Seleccionados</h3>
             <div className="space-y-2">
               {optimizedResult.selected_products.map((item, index) => (
                 <div key={index} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-0">
                   <div>
-                    <div className="font-medium">{item.product.name}</div>
+                    <div className="font-medium text-gray-900">{item.product.name}</div>
                     <div className="text-sm text-gray-600">Cantidad: {item.quantity}</div>
                   </div>
                   <div className="text-right">
-                    <div className="font-semibold">${item.subtotal.toFixed(0)}</div>
+                    <div className="font-semibold text-gray-900">${item.subtotal.toFixed(0)}</div>
                   </div>
                 </div>
               ))}
