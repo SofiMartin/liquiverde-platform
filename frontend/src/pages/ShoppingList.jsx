@@ -134,7 +134,7 @@ const ShoppingList = () => {
           
           {/* Optimization */}
           <div className="card">
-            <h3 className="font-semibold mb-3">Optimizar Lista</h3>
+            <h3 className="font-semibold mb-3 text-gray-900">Optimizar Lista</h3>
             <div className="space-y-3">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
