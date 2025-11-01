@@ -94,7 +94,7 @@ const ShoppingList = () => {
         {/* Selected Products */}
         <div className="space-y-4">
           <div className="card">
-            <h2 className="text-xl font-semibold mb-4">Mi Lista ({selectedProducts.length})</h2>
+            <h2 className="text-xl font-semibold mb-4 text-gray-900">Mi Lista ({selectedProducts.length})</h2>
             
             {selectedProducts.length === 0 ? (
               <p className="text-gray-500 text-center py-8">Agrega productos a tu lista</p>
