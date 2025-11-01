@@ -350,18 +350,38 @@ El sistema calcula:
 - **Ahorros Estimados**: Comparación con precios promedio
 - **Equivalencias**: km en auto, árboles necesarios, días de energía
 
-## 🚀 Despliegue en Producción
+## 🚀 Despliegue
 
-### Opciones Gratuitas
-- **Backend**: Railway, Render, Fly.io
-- **Frontend**: Vercel, Netlify, GitHub Pages
-- **Base de Datos**: Railway (PostgreSQL), Supabase
+### Despliegue en Railway (Recomendado)
 
-### Pasos para Despliegue
-1. Configurar variables de entorno en la plataforma
-2. Conectar repositorio Git
-3. La plataforma detectará Dockerfile y construirá automáticamente
-4. Configurar dominio personalizado (opcional)
+La forma más fácil de desplegar toda la aplicación es usando Railway:
+
+1. **Crear cuenta en Railway**: https://railway.app/
+2. **Preparar MongoDB Atlas**: https://www.mongodb.com/cloud/atlas (tier gratuito)
+3. **Desplegar desde GitHub**:
+   - New Project → Deploy from GitHub
+   - Seleccionar repositorio `SofiMartin/liquiverde-platform`
+   - Railway detectará automáticamente Docker Compose
+
+4. **Configurar variables de entorno**:
+   ```env
+   MONGODB_URL=mongodb+srv://user:pass@cluster.mongodb.net/
+   DATABASE_NAME=liquiverde
+   PORT=8000
+   ```
+
+5. **Acceder a la aplicación**:
+   - Frontend: `https://liquiverde-frontend.up.railway.app`
+   - Backend API: `https://liquiverde-backend.up.railway.app`
+   - Docs: `https://liquiverde-backend.up.railway.app/docs`
+
+📖 **Guía completa**: Ver [RAILWAY_DEPLOY.md](./RAILWAY_DEPLOY.md)
+
+### Otras Opciones
+
+**Frontend:** Vercel, Netlify, GitHub Pages  
+**Backend:** Render, Heroku, Fly.io  
+**Base de Datos:** MongoDB Atlas (gratis), Railway PostgreSQL
 
 ## 🧪 Testing
 
