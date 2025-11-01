@@ -2,6 +2,14 @@
 
 Plataforma full-stack que ayuda a los consumidores a ahorrar dinero mientras toman decisiones de compra sostenibles, optimizando presupuesto e impacto ambiental/social.
 
+## 🌐 Demo en Vivo
+
+- **Frontend**: https://liquiverde-platform-1.onrender.com
+- **Backend API**: https://liquiverde-platform.onrender.com
+- **Documentación API**: https://liquiverde-platform.onrender.com/docs
+
+> ⚠️ **Nota**: El backend puede tardar ~30 segundos en la primera carga (cold start del plan gratuito de Render).
+
 ## 🎯 Características Principales
 
 ### Funcionalidades Obligatorias ✅
@@ -352,25 +360,23 @@ El sistema calcula:
 
 ## 🚀 Despliegue
 
-### Despliegue en Render (100% Gratis - Recomendado)
+### Despliegue en Render
 
-La forma más fácil y gratuita de desplegar toda la aplicación:
+Pasos implementados:
 
-1. **Crear cuenta en Render**: https://render.com/ (sin tarjeta de crédito)
-2. **Preparar MongoDB Atlas**: https://www.mongodb.com/cloud/atlas (tier M0 gratuito)
+1. **Crear cuenta en Render**: https://render.com/
+2. **Preparar MongoDB Atlas**: https://www.mongodb.com/cloud/atlas
 3. **Desplegar Backend**:
    - New → Web Service
    - Conectar repositorio GitHub
    - Root Directory: `backend`
    - Environment: Docker
-   - Plan: Free
 
 4. **Desplegar Frontend**:
    - New → Static Site
    - Root Directory: `frontend`
    - Build: `npm install && npm run build`
    - Publish: `dist`
-   - Plan: Free
 
 5. **Configurar variables de entorno**:
    ```env
