@@ -18,8 +18,11 @@ services:
   - type: web
     name: liquiverde-frontend
     env: static
-    buildCommand: cd frontend && npm install && npm run build && cp frontend/public/_redirects frontend/dist/
+    buildCommand: cd frontend && bash build.sh
     staticPublishPath: ./frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://liquiverde-platform.onrender.com/api
     routes:
       - type: rewrite
         source: /*
