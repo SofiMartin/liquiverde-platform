@@ -392,9 +392,10 @@ pytest tests/test_api.py -v
 ```
 
 **Tests Incluidos:**
-- ✅ **Algoritmos**: 10+ tests para scoring de sostenibilidad
-- ✅ **API Endpoints**: 15+ tests para productos, listas, análisis y tiendas
-- ✅ **Integración**: Tests end-to-end de flujos completos
+- ✅ **Algoritmo de Mochila**: 11 tests (optimización, presupuesto, prioridades)
+- ✅ **Motor de Sustitución**: 13 tests (búsqueda, criterios, scoring)
+- ✅ **Sistema de Scoring**: 8 tests (económico, ambiental, social)
+- ✅ **Total**: 32 tests unitarios con 100% de éxito
 
 ### Frontend Tests
 
