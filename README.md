@@ -403,24 +403,3 @@ pytest tests/test_api.py -v
 cd frontend
 npm test
 ```
-
-## 📝 Licencia
-
-Este proyecto fue creado como parte de un desafío técnico.
-
-## 👥 Contribuciones
-
-Para contribuir:
-1. Fork el repositorio
-2. Crea una rama para tu feature
-3. Commit tus cambios
-4. Push a la rama
-5. Abre un Pull Request
-
-## 📞 Soporte
-
-Para preguntas o problemas, abre un issue en el repositorio.
-
----
-
-**Desarrollado con 💚 para un futuro más sostenible**
