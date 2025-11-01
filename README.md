@@ -299,8 +299,6 @@ python -m app.services.seed_data
 
 ## 🧪 Uso de IA
 
-Este proyecto fue desarrollado con asistencia de IA para:
-
 ### Desarrollo de Algoritmos
 - **Algoritmo de Mochila Multi-objetivo**: Implementación de programación dinámica con múltiples criterios de optimización
 - **Sistema de Scoring**: Diseño de fórmulas y factores de ponderación para sostenibilidad
